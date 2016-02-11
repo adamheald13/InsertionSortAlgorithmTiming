@@ -3,42 +3,65 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <iostream>
+#include "Timer.cpp"
+#include "InsertionSort.h"
 using namespace std;
 
+Timer timer;
+InsertionSort sorter;
+
+long part1DataSet[200000];
+long part2DataSet[400000];
+
 void timingPart1();
-int *part1DataSet = new int[200000];
 void timingPart2();
-int *part2DataSet = new int[400000];
+void initDataSet(long size);
 
 int main ()
 {
-  timingPart1();
-  timingPart2();
+  std::cout << "---------- Part 1 ----------" << std::endl;
+  srand(time(NULL));
+  for(int i = 0; i < 10; i++)
+    timingPart1();
 
-  delete part1DataSet;
-  delete part2DataSet;
+  std::cout << "---------- Part 2 ----------" << std::endl;
+  srand(20);
+  for(int i = 0; i < 5; i++)
+    timingPart2();
 
   return 0;
 }
 
 void timingPart1()
 {
-  std::cout << "---------- Part 1 ----------" << std::endl;
-
-  srand(time(NULL));
-
-  for(int i = 0; i < 200000; i++) {         //generate data set
-    part1DataSet[i] = rand()%80000 - 40000;
-  }
+  long size = 200000;
+  initDataSet(size);
+  timer.start();
+  sorter.sort(part1DataSet, size);
+  timer.printTime(timer.stop());
 }
 
 void timingPart2()
 {
-  std::cout << "---------- Part 2 ----------" << std::endl;
+  long size = 400000;
+  initDataSet(size);
+  timer.start();
+  sorter.sort(part2DataSet, size);
+  timer.printTime(timer.stop());
+}
 
-  srand(20);
+void initDataSet(long size)
+{
+  part2DataSet[0] = -100000;
+  part1DataSet[0] = -100000;
 
-  for(int i = 0; i < 400000; i++) {         //generate data set
-    part2DataSet[i] = rand()%160000 - 80000;
+  if(size == 200000) {
+    for(long i = 1; i < size; i++) {         //generate data set
+      part1DataSet[i] = rand()%80001 - 40000;
+    }
+  } else {
+    for(long i = 1; i < size; i++) {         //generate data set
+      part1DataSet[i] = rand()%160001 - 40000;
+    }
   }
 }

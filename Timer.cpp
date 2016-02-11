@@ -8,7 +8,7 @@ class Timer {
 private:
 
 	timeval startTime;
-        timeval endTime;
+  timeval endTime;
 
 public:
 
@@ -17,7 +17,7 @@ public:
 	}
 
 	double stop(){
-	        long seconds, nseconds;
+	  long seconds, nseconds;
 		double duration;
 
 		gettimeofday(&endTime, NULL);
