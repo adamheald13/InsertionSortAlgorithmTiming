@@ -3,12 +3,16 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <iostream>
+#include <fstream>
 #include "Timer.cpp"
 #include "InsertionSort.h"
 using namespace std;
 
 Timer timer;
 InsertionSort sorter;
+ofstream outStream;
+
+double duration;
 
 long part1DataSet[200000];
 long part2DataSet[400000];
@@ -21,33 +25,37 @@ int main ()
 {
   std::cout << "---------- Part 1 ----------" << std::endl;
   srand(time(NULL));
+  outStream.open("Lab03Part1Results.txt");
   for(int i = 0; i < 10; i++)
-    timingPart1();
+    timingPart1(i);
 
   std::cout << "---------- Part 2 ----------" << std::endl;
   srand(20);
+  outStream.open("Lab03Part2Results.txt");
   for(int i = 0; i < 5; i++)
-    timingPart2();
+    timingPart2(i);
 
   return 0;
 }
 
-void timingPart1()
+void timingPart1(int i)
 {
   long size = 200000;
   initDataSet(size);
   timer.start();
   sorter.sort(part1DataSet, size);
-  timer.printTime(timer.stop());
+  duration = timer.stop();
+  outStream << "Run " << i + 1 << ": " duration << " seconds";
 }
 
-void timingPart2()
+void timingPart2(int i)
 {
   long size = 400000;
   initDataSet(size);
   timer.start();
   sorter.sort(part2DataSet, size);
-  timer.printTime(timer.stop());
+  duration = timer.stop();
+  outStream << "Run " << i + 1 << ": " duration << " seconds";
 }
 
 void initDataSet(long size)
